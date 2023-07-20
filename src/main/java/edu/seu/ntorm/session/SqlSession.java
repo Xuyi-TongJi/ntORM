@@ -7,8 +7,7 @@ public interface SqlSession {
     /**
      * 查询一条记录的接口(根据SqlID)
      * @param statement SqlID
-     * @return
-     * @param <T>
+     * @return 查询结果，可能为null
      */
     <T> T selectOne(String statement);
 
