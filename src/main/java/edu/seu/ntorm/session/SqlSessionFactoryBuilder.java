@@ -1,7 +1,5 @@
 package edu.seu.ntorm.session;
 
-import edu.seu.ntorm.builder.xml.DefaultXmlConfigBuilder;
-
 import java.io.Reader;
 
 /**
@@ -18,9 +16,9 @@ public interface SqlSessionFactoryBuilder {
     SqlSessionFactory build(Reader reader);
 
     /**
-     *
-     * @param configuration
-     * @return
+     * 通过Configuration直接构造
+     * @param configuration 配置
+     * @return SqlSessionFactory -> 用以构造SqlSession
      */
     SqlSessionFactory build(Configuration configuration);
 }

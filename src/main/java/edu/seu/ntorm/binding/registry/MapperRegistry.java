@@ -14,7 +14,6 @@ public interface MapperRegistry {
      */
     <T> T getMapper(Class<T> type, SqlSession sqlSession) throws MapperNotExistException;
 
-
     /**
      * 添加MapperFactory
      * Mapper必须是接口
@@ -27,4 +26,6 @@ public interface MapperRegistry {
      * @param packageName 包名
      */
     void addMappers(String packageName) throws AddMapperException;
+
+    <T> boolean hasMapper(Class<T> type);
 }

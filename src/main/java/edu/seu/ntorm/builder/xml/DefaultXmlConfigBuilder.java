@@ -1,8 +1,10 @@
 package edu.seu.ntorm.builder.xml;
 
 import edu.seu.ntorm.builder.BaseBuilder;
+import edu.seu.ntorm.builder.session.defaults.DefaultConfiguration;
 import edu.seu.ntorm.exception.ParseConfigurationException;
 import edu.seu.ntorm.io.ResourcesUtil;
+import edu.seu.ntorm.mapping.MappedStatement;
 import edu.seu.ntorm.mapping.SqlCommandType;
 import edu.seu.ntorm.session.Configuration;
 import lombok.extern.slf4j.Slf4j;
@@ -78,7 +80,7 @@ public class DefaultXmlConfigBuilder extends BaseBuilder {
     private static final String ID = "id";
 
     public DefaultXmlConfigBuilder(Reader reader) {
-        super(new Configuration());
+        super(new DefaultConfiguration());
         // dom4j 处理XML
         SAXReader saxReader = new SAXReader();
         try {
@@ -128,17 +130,27 @@ public class DefaultXmlConfigBuilder extends BaseBuilder {
         String parameterType = e.attributeValue(PARAMETER_TYPE);
         String sql = e.getText(); // sql
 
-        // ? 匹配
+        // ? 匹配获得params
         Map<Integer, String> params = new HashMap<>();
         sql = matchParameter(sql, params);
-        String methodID = namespace + "." + id; // methodId 全类名+方法名(id)
+        String methodId = namespace + "." + id; // methodId 全类名+方法名(id)
         String statementName = e.getName();
 
-        // TODO Mapped Statement To Configuration
+        // Mapped Statement To Configuration
+        SqlCommandType commandType = SqlCommandType.valueOf(statementName);
+        MappedStatement statement = MappedStatement.build(
+                this.configuration,
+                methodId,
+                commandType,
+                parameterType,
+                resultType,
+                sql,
+                params);
+        configuration.addMappedStatement(statement);
     }
 
     /**
-     * ?匹配, 基于lambdabiaodashi
+     * ?匹配, 基于正则表达式
      * @param sql SQL
      * @return SQL after matching
      */

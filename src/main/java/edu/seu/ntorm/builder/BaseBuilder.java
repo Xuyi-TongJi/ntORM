@@ -2,7 +2,7 @@ package edu.seu.ntorm.builder;
 
 import edu.seu.ntorm.session.Configuration;
 
-public class BaseBuilder {
+public abstract class BaseBuilder {
 
     protected final Configuration configuration;
 

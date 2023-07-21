@@ -1,7 +1,5 @@
 package edu.seu.ntorm.mapping;
 
-import javax.swing.text.StyledEditorKit;
-
 public enum SqlCommandType {
 
     UNKNOWN("UNKNOWN"),
@@ -22,5 +20,31 @@ public enum SqlCommandType {
 
     public String getTypeName() {
         return typeName;
+    }
+
+    public SqlCommandType typeOf(String sqlType) {
+        sqlType = sqlType.toUpperCase();
+        switch (sqlType) {
+            case "INSERT":
+            {
+                return INSERT;
+            }
+            case "UPDATE":
+            {
+                return UPDATE;
+            }
+            case "DELETE":
+            {
+                return DELETE;
+            }
+            case "SELECT":
+            {
+                return SELECT;
+            }
+            default:
+            {
+                return UNKNOWN;
+            }
+        }
     }
 }

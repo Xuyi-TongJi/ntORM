@@ -13,6 +13,7 @@ import java.util.Set;
 /**
  * Mapper注册机
  * 上层在使用时可以提供一个包的路径即可完成扫描与Mapper(接口对象)的注册(生成代理类并注册)
+ * 本质是一个MapperProxyFactory的Map集合
  */
 public class DefaultMapperRegistry implements MapperRegistry {
 
@@ -21,7 +22,6 @@ public class DefaultMapperRegistry implements MapperRegistry {
      */
     private final Map<Class<?>, MapperProxyFactory<?>> mapperFactories = new HashMap<>();
 
-    // TODO 如何扫描MapperScan注解
 
     @Override
     public <T> T getMapper(Class<T> type, SqlSession sqlSession) throws MapperNotExistException {
@@ -39,7 +39,7 @@ public class DefaultMapperRegistry implements MapperRegistry {
 
     @Override
     public <T> void addMapper(Class<T> type) throws AddMapperException {
-        if (type.isInterface() && !hasMapperType(type)) {
+        if (type.isInterface() && !hasMapper(type)) {
             MapperProxyFactory<T> factory = new MapperProxyFactory<>(type);
             mapperFactories.put(type, factory);
         } else {
@@ -55,7 +55,8 @@ public class DefaultMapperRegistry implements MapperRegistry {
         }
     }
 
-    private <T> boolean hasMapperType(Class<T> type) {
+    @Override
+    public <T> boolean hasMapper(Class<T> type) {
         return mapperFactories.containsKey(type);
     }
 }

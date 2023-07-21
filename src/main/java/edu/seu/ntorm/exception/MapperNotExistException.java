@@ -1,5 +1,5 @@
 package edu.seu.ntorm.exception;
 
-public class MapperNotExistException extends Exception {
+public class MapperNotExistException extends RuntimeException {
 
 }

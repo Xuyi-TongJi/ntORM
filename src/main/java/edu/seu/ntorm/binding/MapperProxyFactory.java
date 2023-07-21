@@ -3,11 +3,10 @@ package edu.seu.ntorm.binding;
 import edu.seu.ntorm.session.SqlSession;
 
 import java.lang.reflect.Proxy;
-import java.util.Map;
 
 /**
  * T MapperInterface的代理工厂类
- * @param <T>
+ * 用以通过SqlSession构造Mapper Interface代理对象 MapperProxy
  */
 public class MapperProxyFactory<T> {
 
