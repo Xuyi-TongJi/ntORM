@@ -2,9 +2,15 @@ package edu.seu.ntorm.binding.registry;
 
 import cn.hutool.core.lang.ClassScanner;
 import edu.seu.ntorm.binding.MapperProxyFactory;
+import edu.seu.ntorm.builder.xml.DefaultXmlConfigBuilder;
 import edu.seu.ntorm.exception.AddMapperException;
 import edu.seu.ntorm.exception.MapperNotExistException;
+import edu.seu.ntorm.ntDb.DefaultBuilderAutoConfigurator;
+import edu.seu.ntorm.session.Configuration;
 import edu.seu.ntorm.session.SqlSession;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,13 +21,18 @@ import java.util.Set;
  * 上层在使用时可以提供一个包的路径即可完成扫描与Mapper(接口对象)的注册(生成代理类并注册)
  * 本质是一个MapperProxyFactory的Map集合
  */
-public class DefaultMapperRegistry implements MapperRegistry {
+@ConditionalOnBean(value = {DefaultBuilderAutoConfigurator.class})
+@Component
+public class DefaultMapperRegistry extends MapperRegistry {
 
     /**
      * Mapper.class -> MapperProxyFactory
      */
     private final Map<Class<?>, MapperProxyFactory<?>> mapperFactories = new HashMap<>();
 
+    public DefaultMapperRegistry(Configuration configuration) {
+        super(configuration);
+    }
 
     @Override
     public <T> T getMapper(Class<T> type, SqlSession sqlSession) throws MapperNotExistException {
@@ -59,4 +70,5 @@ public class DefaultMapperRegistry implements MapperRegistry {
     public <T> boolean hasMapper(Class<T> type) {
         return mapperFactories.containsKey(type);
     }
+
 }

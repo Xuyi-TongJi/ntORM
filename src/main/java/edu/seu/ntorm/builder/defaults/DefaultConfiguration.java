@@ -1,14 +1,23 @@
-package edu.seu.ntorm.builder.session.defaults;
+package edu.seu.ntorm.builder.defaults;
 
-import edu.seu.ntorm.binding.registry.DefaultMapperRegistry;
 import edu.seu.ntorm.binding.registry.MapperRegistry;
+import edu.seu.ntorm.builder.xml.DefaultXmlConfigBuilder;
+import edu.seu.ntorm.dataSource.druid.DruidDataSourceFactory;
 import edu.seu.ntorm.exception.AddMapperException;
 import edu.seu.ntorm.exception.MappedStatementNotExistException;
 import edu.seu.ntorm.exception.MapperNotExistException;
+import edu.seu.ntorm.mapping.Environment;
 import edu.seu.ntorm.mapping.MappedStatement;
+import edu.seu.ntorm.ntDb.DefaultBuilderAutoConfigurator;
 import edu.seu.ntorm.session.Configuration;
 import edu.seu.ntorm.session.SqlSession;
+import edu.seu.ntorm.transaction.jdbc.JdbcTransactionFactory;
+import edu.seu.ntorm.type.TypeAliasRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,11 +25,31 @@ import java.util.Map;
  * Configuration默认实现类
  * 用Mapper注册机 MapperRegistry 和 一个Map存储MappedStatement
  */
+@ConditionalOnBean(value = {DefaultBuilderAutoConfigurator.class})
+@Component
 public class DefaultConfiguration implements Configuration {
 
+    /**
+     * SQL语句映射
+     */
     private final Map<String, MappedStatement> statements = new HashMap<>();
 
-    private final MapperRegistry mapperRegistry = new DefaultMapperRegistry();
+    private Environment environment;
+
+    @Autowired
+    private TypeAliasRegistry typeAliasRegistry;
+
+    /**
+     * Mapper注册机
+     */
+    @Autowired
+    private MapperRegistry mapperRegistry;
+
+    @PostConstruct
+    public void postConstruct() {
+        typeAliasRegistry.register("JDBC", JdbcTransactionFactory.class);
+        typeAliasRegistry.register("DRUID", DruidDataSourceFactory.class);
+    }
 
     @Override
     public void addMappers(String packageName) {

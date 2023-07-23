@@ -6,6 +6,9 @@ import edu.seu.ntorm.session.SqlSessionFactory;
 
 public class DefaultSqlSessionFactory implements SqlSessionFactory {
 
+    /**
+     * Configuration -> MapperRegistry + TypeAlias + StatementMapper
+     */
     private final Configuration configuration;
 
     public DefaultSqlSessionFactory(Configuration configuration) {

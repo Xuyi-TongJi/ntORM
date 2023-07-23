@@ -4,7 +4,8 @@ import java.io.Reader;
 
 /**
  * SqlSessionFactory(工厂)构造器 -> 构造SqlSessionFactory
- * 构建者模式
+ * 整个ORM框架的入口
+ * 构建者模式，构建SqlSessionFactory -> 基于XML等构建方式
  */
 public interface SqlSessionFactoryBuilder {
 

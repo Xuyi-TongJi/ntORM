@@ -1,19 +1,23 @@
 package edu.seu.ntorm.builder.xml;
 
 import edu.seu.ntorm.builder.BaseBuilder;
-import edu.seu.ntorm.builder.session.defaults.DefaultConfiguration;
 import edu.seu.ntorm.exception.ParseConfigurationException;
 import edu.seu.ntorm.io.ResourcesUtil;
 import edu.seu.ntorm.mapping.MappedStatement;
 import edu.seu.ntorm.mapping.SqlCommandType;
+import edu.seu.ntorm.ntDb.DefaultBuilderAutoConfigurator;
 import edu.seu.ntorm.session.Configuration;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
-import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.stereotype.Component;
 import org.xml.sax.InputSource;
 
+import javax.annotation.PostConstruct;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
@@ -58,14 +62,16 @@ import java.util.regex.Pattern;
  * </xml>
  */
 @Slf4j
+@ConditionalOnBean(value = {DefaultBuilderAutoConfigurator.class})
+@Component
 public class DefaultXmlConfigBuilder extends BaseBuilder {
 
-    /**
-     * XML根标签
-     */
-    private Element root;
+    @Autowired
+    private Configuration configuration;
 
     private static final String MAPPERS = "mappers";
+
+    private static final String ENVIRONMENTS = "environments";
 
     private static final String MAPPER = "mapper";
 
@@ -79,29 +85,23 @@ public class DefaultXmlConfigBuilder extends BaseBuilder {
 
     private static final String ID = "id";
 
-    public DefaultXmlConfigBuilder(Reader reader) {
-        super(new DefaultConfiguration());
-        // dom4j 处理XML
-        SAXReader saxReader = new SAXReader();
+    @Override
+    public void parseByReader(Reader reader) throws ParseConfigurationException {
         try {
+            SAXReader saxReader = new SAXReader();
             Document document = saxReader.read(new InputSource(reader));
-            root = document.getRootElement();
-        } catch (DocumentException e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    public Configuration parse() throws ParseConfigurationException {
-        try {
-            mapperElement(root.element(MAPPERS));
+            mapperElement(document.getRootElement().element(MAPPERS));
+            // 改为Spring注解配置
+            // environmentElement(document.getRootElement().element(ENVIRONMENTS));
         } catch (Exception e) {
             throw new ParseConfigurationException();
         }
-        return configuration;
     }
 
     /**
      * 解析XML的逻辑, 使用dom4j
+     * 完成 1. 映射所有MapperInterface到Configuration的MapperRegistry中
+     *     2. 对每个Mapper,解析所有Mapper的XML文件，将所有SQL映射到Configuration中的statements中，ID为Mapper Interface全类名+方法名
      * @param mappers mappers
      */
     private void mapperElement(Element mappers) throws Exception {
@@ -113,15 +113,34 @@ public class DefaultXmlConfigBuilder extends BaseBuilder {
             SAXReader saxReader = new SAXReader();
             Document document = saxReader.read(new InputSource(reader));
             Element root = document.getRootElement();
-            // namespace
+            // namespace Mapper Interface全类名
             String namespace = root.attributeValue(NAMESPACE);
 
+            // 映射Mapper XML文件中的所有SQL Statement
             List<Element> statements = root.elements();
             for (Element statement : statements) {
                 parseStatement(statement, namespace);
             }
+            // 注册Mapper映射器类
+            configuration.addMapper(ResourcesUtil.classForName(namespace));
         }
     }
+
+//    private void environmentElement(Element context) {
+//        String environment = context.attributeValue("default");
+//        if (environment == null) {
+//            throw new ParseConfigurationException();
+//        }
+//        List<Element> envs = context.elements("environment");
+//        for (Element env : envs) {
+//            String id = env.attributeValue("id");
+//            if (env.equals(id)) {
+//                // 配置事务管理器
+//
+//            }
+//        }
+//    }
+
 
     private void parseStatement(Element e, String namespace) {
         // <select id="" parameterType="" resultType=""> sql </select>

@@ -7,7 +7,7 @@ import edu.seu.ntorm.session.SqlSession;
 public class DefaultSqlSession implements SqlSession {
 
     /**
-     * 映射注册机
+     * Configuration -> MapperRegistry + MappedStatements
      */
     private final Configuration configuration;
 
