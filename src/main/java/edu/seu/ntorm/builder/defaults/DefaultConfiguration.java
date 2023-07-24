@@ -1,7 +1,6 @@
 package edu.seu.ntorm.builder.defaults;
 
 import edu.seu.ntorm.binding.registry.MapperRegistry;
-import edu.seu.ntorm.builder.xml.DefaultXmlConfigBuilder;
 import edu.seu.ntorm.dataSource.druid.DruidDataSourceFactory;
 import edu.seu.ntorm.exception.AddMapperException;
 import edu.seu.ntorm.exception.MappedStatementNotExistException;
@@ -92,5 +91,10 @@ public class DefaultConfiguration implements Configuration {
         } else {
             return statement;
         }
+    }
+
+    @Override
+    public Environment getEnvironment() {
+        return environment;
     }
 }

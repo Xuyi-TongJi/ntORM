@@ -95,4 +95,8 @@ public class MappedStatement {
     public void setParameter(Map<Integer, String> parameter) {
         this.parameter = parameter;
     }
+
+    public BoundSql getBoundSql() {
+        return new BoundSql(sql, parameter, parameterType, resultType);
+    }
 }

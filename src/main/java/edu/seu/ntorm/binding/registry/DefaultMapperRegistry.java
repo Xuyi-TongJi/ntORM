@@ -30,9 +30,9 @@ public class DefaultMapperRegistry extends MapperRegistry {
      */
     private final Map<Class<?>, MapperProxyFactory<?>> mapperFactories = new HashMap<>();
 
-    public DefaultMapperRegistry(Configuration configuration) {
-        super(configuration);
-    }
+//    public DefaultMapperRegistry(Configuration configuration) {
+//        super(configuration);
+//    }
 
     @Override
     public <T> T getMapper(Class<T> type, SqlSession sqlSession) throws MapperNotExistException {

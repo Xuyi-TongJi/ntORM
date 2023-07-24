@@ -7,11 +7,11 @@ import edu.seu.ntorm.session.SqlSession;
 
 public abstract class MapperRegistry {
 
-    private final Configuration configuration;
+    // private final Configuration configuration;
 
-    public MapperRegistry(Configuration configuration) {
-        this.configuration = configuration;
-    }
+//    public MapperRegistry(Configuration configuration) {
+//        this.configuration = configuration;
+//    }
 
     /**
      * 获取MapperProxy (Mapper代理类)
@@ -35,8 +35,4 @@ public abstract class MapperRegistry {
     public abstract void addMappers(String packageName) throws AddMapperException;
 
     public abstract <T> boolean hasMapper(Class<T> type);
-
-    public final Configuration getConfiguration() {
-        return configuration;
-    }
 }

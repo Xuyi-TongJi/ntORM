@@ -1,5 +1,6 @@
 package edu.seu.ntorm.session;
 
+import edu.seu.ntorm.mapping.Environment;
 import edu.seu.ntorm.mapping.MappedStatement;
 
 /**
@@ -26,4 +27,6 @@ public interface Configuration {
     void addMappedStatement(MappedStatement statement);
 
     MappedStatement getMappedStatement(String id);
+
+    Environment getEnvironment();
 }
