@@ -4,5 +4,19 @@ import io.netty.channel.Channel;
 
 public interface NettyClient {
 
-    Channel getChanel();
+    /**
+     * 获得Channel
+     * @return Channel
+     */
+    Channel getChannel(String ip, int port);
+
+    /**
+     * 协议封装
+     */
+    String packageByProtocol(String code);
+
+    /**
+     * 协议拆装
+     */
+    String unpackByProtocol(String code);
 }

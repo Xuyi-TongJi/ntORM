@@ -1,4 +1,4 @@
-package edu.seu.ntorm.driver;
+package edu.seu.ntorm.driver.jdbc;
 
 import com.mysql.jdbc.NotImplemented;
 import edu.seu.ntorm.driver.netty.NtDbClient;
@@ -36,12 +36,12 @@ public class NtDbConnection implements Connection {
      */
     private final Map<String, Class<?>> typeMap;
 
-    public NtDbConnection(NtDbClient client, Channel channel, boolean autoCommit, boolean readOnly, int isoLationLevel, Map<String, Class<?>> typeMap) {
+    public NtDbConnection(NtDbClient client, Channel channel, boolean autoCommit, boolean readOnly, int isolationLevel, Map<String, Class<?>> typeMap) {
         this.ntDbClient = client;
         this.channel = channel;
         this.autoCommit = autoCommit;
         this.readOnly = readOnly;
-        this.isolationLevel = isoLationLevel;
+        this.isolationLevel = isolationLevel;
         this.typeMap = typeMap;
     }
 

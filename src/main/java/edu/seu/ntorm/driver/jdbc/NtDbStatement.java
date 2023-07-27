@@ -1,4 +1,4 @@
-package edu.seu.ntorm.driver;
+package edu.seu.ntorm.driver.jdbc;
 
 import java.sql.*;
 
