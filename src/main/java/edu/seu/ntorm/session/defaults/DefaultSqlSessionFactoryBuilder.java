@@ -1,15 +1,13 @@
 package edu.seu.ntorm.session.defaults;
 
 import edu.seu.ntorm.builder.BaseBuilder;
-import edu.seu.ntorm.builder.xml.DefaultXmlConfigBuilder;
 import edu.seu.ntorm.exception.ParseConfigurationException;
 import edu.seu.ntorm.ntDb.DefaultBuilderAutoConfigurator;
 import edu.seu.ntorm.session.AbstractSqlSessionFactoryBuilder;
-import edu.seu.ntorm.session.Configuration;
+import edu.seu.ntorm.session.env.Configuration;
 import edu.seu.ntorm.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import java.io.Reader;

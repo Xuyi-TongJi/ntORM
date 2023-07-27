@@ -1,4 +1,4 @@
-package edu.seu.ntorm.mapping;
+package edu.seu.ntorm.type;
 
 public enum SqlCommandType {
 

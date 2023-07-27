@@ -5,7 +5,7 @@ import edu.seu.ntorm.executor.Executor;
 import edu.seu.ntorm.executor.resultsetHandler.ResultSetHandler;
 import edu.seu.ntorm.mapping.BoundSql;
 import edu.seu.ntorm.mapping.MappedStatement;
-import edu.seu.ntorm.session.Configuration;
+import edu.seu.ntorm.session.env.Configuration;
 
 import java.sql.Connection;
 import java.sql.SQLException;

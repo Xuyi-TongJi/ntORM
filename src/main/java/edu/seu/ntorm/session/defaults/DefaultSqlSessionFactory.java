@@ -1,6 +1,6 @@
 package edu.seu.ntorm.session.defaults;
 
-import edu.seu.ntorm.session.Configuration;
+import edu.seu.ntorm.session.env.Configuration;
 import edu.seu.ntorm.session.SqlSession;
 import edu.seu.ntorm.session.SqlSessionFactory;
 

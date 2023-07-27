@@ -13,8 +13,23 @@ import java.util.Map;
 @AllArgsConstructor
 public class BoundSql {
 
+    /**
+     * 原始SQL
+     */
     private String sql;
+
+    /**
+     *
+     */
     private Map<Integer, String> parameterMappings;
+
+    /**
+     * 参数类型 可以是Map, 可以是实体类等等
+     */
     private String parameterType;
+
+    /**
+     * 结果实体类型，可以是Map，也可以是实体类(DTO)
+     */
     private String resultType;
 }

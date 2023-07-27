@@ -1,6 +1,7 @@
 package edu.seu.ntorm.mapping;
 
-import edu.seu.ntorm.session.Configuration;
+import edu.seu.ntorm.session.env.Configuration;
+import edu.seu.ntorm.type.SqlCommandType;
 
 import java.util.Map;
 

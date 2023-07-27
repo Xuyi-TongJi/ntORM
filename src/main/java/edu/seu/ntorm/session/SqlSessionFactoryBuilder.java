@@ -1,5 +1,7 @@
 package edu.seu.ntorm.session;
 
+import edu.seu.ntorm.session.env.Configuration;
+
 import java.io.Reader;
 
 /**

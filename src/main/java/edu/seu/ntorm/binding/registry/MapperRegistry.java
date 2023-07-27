@@ -2,7 +2,6 @@ package edu.seu.ntorm.binding.registry;
 
 import edu.seu.ntorm.exception.AddMapperException;
 import edu.seu.ntorm.exception.MapperNotExistException;
-import edu.seu.ntorm.session.Configuration;
 import edu.seu.ntorm.session.SqlSession;
 
 public abstract class MapperRegistry {

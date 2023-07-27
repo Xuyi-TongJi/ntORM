@@ -8,6 +8,9 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * 本质上是java.sql.Connection接口实现类的包装类
+ */
 public class JdbcTransaction implements Transaction {
 
     /**
@@ -36,7 +39,6 @@ public class JdbcTransaction implements Transaction {
         this.dataSource = dataSource;
         this.isolationLevel = isolationLevel;
         this.autoCommit = autoCommit;
-        // TODO 如何获取连接 ？
         try {
             this.connection = dataSource.getConnection();
             connection.setAutoCommit(autoCommit);

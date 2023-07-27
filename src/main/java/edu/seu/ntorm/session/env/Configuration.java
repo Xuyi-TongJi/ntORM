@@ -1,4 +1,4 @@
-package edu.seu.ntorm.session;
+package edu.seu.ntorm.session.env;
 
 import edu.seu.ntorm.executor.Executor;
 import edu.seu.ntorm.executor.resultsetHandler.ResultSetHandler;
@@ -6,6 +6,7 @@ import edu.seu.ntorm.executor.statementHandler.StatementHandler;
 import edu.seu.ntorm.mapping.BoundSql;
 import edu.seu.ntorm.mapping.MappedStatement;
 import edu.seu.ntorm.ntDb.SqlStatementConfig;
+import edu.seu.ntorm.session.SqlSession;
 import edu.seu.ntorm.transaction.Transaction;
 
 /**
