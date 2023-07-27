@@ -1,7 +1,12 @@
 package edu.seu.ntorm.session;
 
-import edu.seu.ntorm.mapping.Environment;
+import edu.seu.ntorm.executor.Executor;
+import edu.seu.ntorm.executor.resultsetHandler.ResultSetHandler;
+import edu.seu.ntorm.executor.statementHandler.StatementHandler;
+import edu.seu.ntorm.mapping.BoundSql;
 import edu.seu.ntorm.mapping.MappedStatement;
+import edu.seu.ntorm.ntDb.SqlStatementConfig;
+import edu.seu.ntorm.transaction.Transaction;
 
 /**
  * Configuration是
@@ -29,4 +34,27 @@ public interface Configuration {
     MappedStatement getMappedStatement(String id);
 
     Environment getEnvironment();
+
+    SqlStatementConfig getSqlStatementConfig();
+
+    /**
+     * 由配置类生产执行器 Executor
+     * @param transaction 事务(连接包装类)
+     * @return 执行器
+     */
+    Executor buildExecutor(Transaction transaction);
+
+    ResultSetHandler buildResultHandler(Executor executor, MappedStatement mappedStatement, BoundSql boundSql);
+
+    /**
+     * 构建语句处理器
+     * @param executor 执行器
+     * @param mappedStatement 映射语句（来自Configuration）
+     * @param parameter SQL语句参数
+     * @param resultHandler 结果处理器
+     * @param boundSql SQL包装类
+     * @return 语句处理器
+     */
+    StatementHandler buildStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameter,
+                                           ResultSetHandler resultHandler, BoundSql boundSql);
 }

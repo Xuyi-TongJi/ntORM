@@ -1,5 +1,6 @@
 package edu.seu.ntorm.transaction.jdbc;
 
+import edu.seu.ntorm.exception.JdbcTransactionException;
 import edu.seu.ntorm.transaction.TransactionIsolationLevel;
 import edu.seu.ntorm.transaction.Transaction;
 
@@ -9,12 +10,24 @@ import java.sql.SQLException;
 
 public class JdbcTransaction implements Transaction {
 
+    /**
+     * 数据源中获取的连接
+     */
     protected Connection connection;
 
+    /**
+     * 数据源
+     */
     protected DataSource dataSource;
 
+    /**
+     * 隔离级别
+     */
     protected TransactionIsolationLevel isolationLevel;
 
+    /**
+     * 自动提交
+     */
     protected boolean autoCommit;
 
     public JdbcTransaction(DataSource dataSource,
@@ -23,21 +36,29 @@ public class JdbcTransaction implements Transaction {
         this.dataSource = dataSource;
         this.isolationLevel = isolationLevel;
         this.autoCommit = autoCommit;
+        // TODO 如何获取连接 ？
+        try {
+            this.connection = dataSource.getConnection();
+            connection.setAutoCommit(autoCommit);
+            connection.setTransactionIsolation(isolationLevel.getLevel());
+        } catch (SQLException e) {
+            throw new JdbcTransactionException();
+        }
     }
 
-    public JdbcTransaction(Connection conn) {
-        this.connection = conn;
-    }
+//    public JdbcTransaction(Connection conn) {
+//        this.connection = conn;
+//    }
 
     @Override
     public Connection getConnection() throws SQLException {
-        Connection conn = dataSource.getConnection();
-        if (conn == null) {
-            throw new SQLException();
-        }
-        conn.setAutoCommit(autoCommit);
-        conn.setTransactionIsolation(isolationLevel.getLevel());
-        return conn;
+//        Connection conn = dataSource.getConnection();
+//        if (conn == null) {
+//            throw new SQLException();
+//        }
+//        conn.setAutoCommit(autoCommit);
+//        conn.setTransactionIsolation(isolationLevel.getLevel());
+        return connection;
     }
 
     @Override

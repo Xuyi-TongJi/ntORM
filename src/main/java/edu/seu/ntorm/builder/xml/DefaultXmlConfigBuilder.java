@@ -17,7 +17,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.stereotype.Component;
 import org.xml.sax.InputSource;
 
-import javax.annotation.PostConstruct;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
@@ -63,6 +62,8 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 @ConditionalOnBean(value = {DefaultBuilderAutoConfigurator.class})
+// 保留功能：ntDB可能要自己实现BaseBuilder解析SQL语法
+@ConditionalOnMissingBean(value = {BaseBuilder.class})
 @Component
 public class DefaultXmlConfigBuilder extends BaseBuilder {
 
@@ -84,6 +85,8 @@ public class DefaultXmlConfigBuilder extends BaseBuilder {
     private static final String RESULT_TYPE = "resultType";
 
     private static final String ID = "id";
+
+    // TODO environment 参数
 
     @Override
     public void parseByReader(Reader reader) throws ParseConfigurationException {
@@ -156,7 +159,7 @@ public class DefaultXmlConfigBuilder extends BaseBuilder {
         String statementName = e.getName();
 
         // Mapped Statement To Configuration
-        SqlCommandType commandType = SqlCommandType.valueOf(statementName);
+        SqlCommandType commandType = SqlCommandType.typeOf(statementName);
         MappedStatement statement = MappedStatement.build(
                 this.configuration,
                 methodId,

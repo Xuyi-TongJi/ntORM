@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-public abstract class TypeAliasRegistry {
+public class TypeAliasRegistry {
 
     private final Map<String, Class<?>> typeAlias;
 
