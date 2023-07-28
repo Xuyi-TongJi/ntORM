@@ -9,7 +9,7 @@ import edu.seu.ntorm.transaction.Transaction;
 public class DefaultExecutorFactory implements ExecutorFactory {
 
     @Override
-    public Executor getExecutor(Configuration configuration, Transaction transaction) {
-        return new DefaultExecutor(configuration, transaction);
+    public Executor getExecutor(Transaction transaction) {
+        return new DefaultExecutor(transaction);
     }
 }

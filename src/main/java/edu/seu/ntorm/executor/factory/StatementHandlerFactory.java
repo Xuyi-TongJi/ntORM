@@ -12,12 +12,10 @@ public interface StatementHandlerFactory {
     StatementHandler getStatementHandler(Executor executor,
                                          MappedStatement mappedStatement,
                                          Object parameter,
-                                         ResultSetHandler resultHandler,
                                          BoundSql boundSql);
 
     StatementHandler getPreparedStatementHandler(Executor executor,
                                                  MappedStatement mappedStatement,
                                                  Object parameter,
-                                                 ResultSetHandler resultHandler,
                                                  BoundSql boundSql);
 }

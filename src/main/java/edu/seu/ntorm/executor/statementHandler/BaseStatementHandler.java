@@ -19,22 +19,19 @@ public abstract class BaseStatementHandler implements StatementHandler {
 
     protected final MappedStatement mappedStatement;
 
+    // TODO ? how to use it
     protected final Object parameterObject;
-
-    protected final ResultSetHandler resultSetHandler;
 
     protected final BoundSql boundSql;
 
     public BaseStatementHandler(Executor executor,
                                 MappedStatement mappedStatement,
                                 Object parameterObject,
-                                ResultSetHandler resultSetHandler,
                                 BoundSql boundSql) {
         this.executor = executor;
         this.mappedStatement = mappedStatement;
         this.configuration = mappedStatement.getConfiguration();
         this.parameterObject = parameterObject;
-        this.resultSetHandler = resultSetHandler;
         this.boundSql = boundSql;
     }
 

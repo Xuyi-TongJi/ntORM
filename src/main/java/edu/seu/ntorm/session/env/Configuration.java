@@ -45,17 +45,23 @@ public interface Configuration {
      */
     Executor buildExecutor(Transaction transaction);
 
-    ResultSetHandler buildResultHandler(Executor executor, MappedStatement mappedStatement, BoundSql boundSql);
+    /**
+     * 构建结果集处理器
+     * @param executor 执行器
+     * @param mappedStatement 映射语句（来自Configuration）
+     * @param boundSql SQL -> 可以获取结果DTO （Map or 实体类）
+     * @return 结果集处理器
+     */
+    ResultSetHandler buildResultSetHandler(Executor executor, MappedStatement mappedStatement, BoundSql boundSql);
 
     /**
      * 构建语句处理器
      * @param executor 执行器
      * @param mappedStatement 映射语句（来自Configuration）
      * @param parameter SQL语句参数
-     * @param resultHandler 结果处理器
      * @param boundSql SQL包装类
      * @return 语句处理器
      */
     StatementHandler buildStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameter,
-                                           ResultSetHandler resultHandler, BoundSql boundSql);
+                                           BoundSql boundSql);
 }

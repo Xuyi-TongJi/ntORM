@@ -84,7 +84,6 @@ public class DefaultConfiguration implements Configuration {
     @PostConstruct
     public void postConstruct() {
         typeAliasRegistry.register("JDBC", JdbcTransactionFactory.class);
-        typeAliasRegistry.register("DRUID", DruidDataSourceFactory.class);
     }
 
     // ------------------ Mapper和Statement注册相关 -------------------- //
@@ -148,16 +147,16 @@ public class DefaultConfiguration implements Configuration {
 
     @Override
     public Executor buildExecutor(Transaction transaction) {
-        return executorFactory.getExecutor(this, transaction);
+        return executorFactory.getExecutor(transaction);
     }
 
     @Override
-    public ResultSetHandler buildResultHandler(Executor executor, MappedStatement mappedStatement, BoundSql boundSql) {
+    public ResultSetHandler buildResultSetHandler(Executor executor, MappedStatement mappedStatement, BoundSql boundSql) {
         return resultSetHandlerFactory.getResultSetHandler(executor, mappedStatement, boundSql);
     }
 
     @Override
-    public StatementHandler buildStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameter, ResultSetHandler resultSetHandler, BoundSql boundSql) {
-        return statementHandlerFactory.getStatementHandler(executor, mappedStatement, parameter, resultSetHandler, boundSql);
+    public StatementHandler buildStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameter, BoundSql boundSql) {
+        return statementHandlerFactory.getStatementHandler(executor, mappedStatement, parameter, boundSql);
     }
 }

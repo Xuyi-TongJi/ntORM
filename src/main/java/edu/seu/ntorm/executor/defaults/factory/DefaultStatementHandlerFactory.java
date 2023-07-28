@@ -14,17 +14,15 @@ public class DefaultStatementHandlerFactory implements StatementHandlerFactory {
     public StatementHandler getStatementHandler(Executor executor,
                                                 MappedStatement mappedStatement,
                                                 Object parameter,
-                                                ResultSetHandler resultHandler,
                                                 BoundSql boundSql) {
-        return new SimpleStatementHandler(executor, mappedStatement, parameter, resultHandler, boundSql);
+        return new SimpleStatementHandler(executor, mappedStatement, parameter, boundSql);
     }
 
     @Override
     public StatementHandler getPreparedStatementHandler(Executor executor,
                                                         MappedStatement mappedStatement,
                                                         Object parameter,
-                                                        ResultSetHandler resultHandler,
                                                         BoundSql boundSql) {
-        return new PreparedStatementHandler(executor, mappedStatement, parameter, resultHandler, boundSql);
+        return new PreparedStatementHandler(executor, mappedStatement, parameter, boundSql);
     }
 }

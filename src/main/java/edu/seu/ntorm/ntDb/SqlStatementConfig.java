@@ -16,5 +16,5 @@ public class SqlStatementConfig {
      * 查询超时时间
      */
     @Value("query_time_out")
-    private long queryTimeout = 350;
+    private int queryTimeout = 350;
 }

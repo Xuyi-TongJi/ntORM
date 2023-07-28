@@ -10,25 +10,25 @@ import lombok.extern.slf4j.Slf4j;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ *  外观模式 Facade
+ */
 @Slf4j
 public abstract class BaseExecutor implements Executor {
 
     /**
-     * ORM配置(Mapper + Environment + MappedStatements)
+     * 当前事务 (java.sql.Connection包装类)
      */
-    protected Configuration configuration;
-
     protected Transaction transaction;
 
     /**
-     * 包装类
+     * 包装类 TODO ?
      */
     protected Executor wrapper;
 
     private boolean closed = false;
 
-    public BaseExecutor(Configuration configuration, Transaction transaction) {
-        this.configuration = configuration;
+    public BaseExecutor(Transaction transaction) {
         this.transaction = transaction;
         this.wrapper = this;
     }

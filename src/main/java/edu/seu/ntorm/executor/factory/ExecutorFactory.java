@@ -6,5 +6,5 @@ import edu.seu.ntorm.transaction.Transaction;
 
 public interface ExecutorFactory {
 
-    Executor getExecutor(Configuration configuration, Transaction transaction);
+    Executor getExecutor(Transaction transaction);
 }

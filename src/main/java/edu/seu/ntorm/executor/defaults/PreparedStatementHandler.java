@@ -7,6 +7,7 @@ import edu.seu.ntorm.mapping.BoundSql;
 import edu.seu.ntorm.mapping.MappedStatement;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -16,9 +17,8 @@ import java.util.List;
  */
 public class PreparedStatementHandler extends BaseStatementHandler {
 
-    public PreparedStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject,
-                                    ResultSetHandler resultSetHandler, BoundSql boundSql) {
-        super(executor, mappedStatement, parameterObject, resultSetHandler, boundSql);
+    public PreparedStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, BoundSql boundSql) {
+        super(executor, mappedStatement, parameterObject, boundSql);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class PreparedStatementHandler extends BaseStatementHandler {
     }
 
     @Override
-    public <E> List<E> query(Statement statement) {
+    public ResultSet execute(Statement statement) {
         return null;
     }
 }
