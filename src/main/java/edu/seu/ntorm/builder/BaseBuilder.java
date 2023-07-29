@@ -1,7 +1,7 @@
 package edu.seu.ntorm.builder;
 
 import edu.seu.ntorm.exception.ParseConfigurationException;
-import edu.seu.ntorm.session.Configuration;
+import edu.seu.ntorm.session.env.Configuration;
 
 import java.io.Reader;
 

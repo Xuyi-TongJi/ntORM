@@ -4,9 +4,9 @@ import edu.seu.ntorm.builder.BaseBuilder;
 import edu.seu.ntorm.exception.ParseConfigurationException;
 import edu.seu.ntorm.io.ResourcesUtil;
 import edu.seu.ntorm.mapping.MappedStatement;
-import edu.seu.ntorm.mapping.SqlCommandType;
+import edu.seu.ntorm.type.SqlCommandType;
 import edu.seu.ntorm.ntDb.DefaultBuilderAutoConfigurator;
-import edu.seu.ntorm.session.Configuration;
+import edu.seu.ntorm.session.env.Configuration;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -17,7 +17,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.stereotype.Component;
 import org.xml.sax.InputSource;
 
-import javax.annotation.PostConstruct;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
@@ -39,17 +38,27 @@ import java.util.regex.Pattern;
  * <xml> <!-- root element -->
  * <mappers>
  *     <!-- mapper -->
- *     <mapper resource=""/>
- *     <mapper resource=""/>
+ *     <mapper resource="mapper/user_mapper.xml"/>
+ *     <mapper resource="mapper/student_mapper.xml"/>
  * </mappers>
  * </xml>
  *
  * XML Mapper文件格式
- *  <xml namespace="DAO全类名"> <!-- root element -->
+ *  <xml namespace="DAO全类名(edu.seu.ntORM.mapper.UserMapper)"> <!-- root element -->
  *      <!-- select update delete insert -->
- *          <select>
+ *          <select id="queryUserById" parameterType="java.lang.Long" resultType="edu.seu.ntORM.pojo.User">
  *              <!-- SQL -->
+ *              select id, username, age from user where id = #{id}
  *          </select>
+ *          <!-- 以pojo为parameterType -->
+ *          <select id="queryUser" parameterType"edu.seu.ntORM.pojo.User" resultType="edu.seu.ntORM.pojo.User">
+ *              select id, username, age from user where id = #{id} and age = #{age} and username = #{username}
+ *          </select>
+ *          <!-- 以Map为parameterType --> <!-- resultType也可以为Map -->
+ *          <select id="queryUser" parameterType"java.util.Map" resultType="edu.seu.ntORM.pojo.User">
+ *              select id, username, age from user where id = #{id} and age = #{age} and username = #{username}
+ *          </select>
+ *
  *          <update>
  *
  *          </update>
@@ -63,6 +72,8 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 @ConditionalOnBean(value = {DefaultBuilderAutoConfigurator.class})
+// 保留功能：ntDB可能要自己实现BaseBuilder解析SQL语法
+@ConditionalOnMissingBean(value = {BaseBuilder.class})
 @Component
 public class DefaultXmlConfigBuilder extends BaseBuilder {
 
@@ -84,6 +95,8 @@ public class DefaultXmlConfigBuilder extends BaseBuilder {
     private static final String RESULT_TYPE = "resultType";
 
     private static final String ID = "id";
+
+    // TODO environment 参数
 
     @Override
     public void parseByReader(Reader reader) throws ParseConfigurationException {
@@ -108,8 +121,8 @@ public class DefaultXmlConfigBuilder extends BaseBuilder {
         List<Element> elements = mappers.elements(MAPPER);
         for (Element element : elements) {
             String resource = element.attributeValue(RESOURCE);
-            Reader reader = ResourcesUtil.getResourceAsReader(resource);
             // read mapper
+            Reader reader = ResourcesUtil.getResourceAsReader(resource);
             SAXReader saxReader = new SAXReader();
             Document document = saxReader.read(new InputSource(reader));
             Element root = document.getRootElement();
@@ -148,7 +161,6 @@ public class DefaultXmlConfigBuilder extends BaseBuilder {
         String resultType = e.attributeValue(RESULT_TYPE);
         String parameterType = e.attributeValue(PARAMETER_TYPE);
         String sql = e.getText(); // sql
-
         // ? 匹配获得params
         Map<Integer, String> params = new HashMap<>();
         sql = matchParameter(sql, params);
@@ -156,15 +168,15 @@ public class DefaultXmlConfigBuilder extends BaseBuilder {
         String statementName = e.getName();
 
         // Mapped Statement To Configuration
-        SqlCommandType commandType = SqlCommandType.valueOf(statementName);
+        SqlCommandType commandType = SqlCommandType.typeOf(statementName);
         MappedStatement statement = MappedStatement.build(
                 this.configuration,
-                methodId,
-                commandType,
-                parameterType,
-                resultType,
-                sql,
-                params);
+                methodId, // edu.seu.ntORM.mapper.UserMapper.queryUserById
+                commandType, // select
+                parameterType, // java.lang.Long
+                resultType, // edu.seu.ntORM.pojo.User
+                sql, // select * from user where id = ? and username = ?
+                params); // 0->id; 1->username (实质上是?对应的参数name)
         configuration.addMappedStatement(statement);
     }
 
@@ -179,9 +191,12 @@ public class DefaultXmlConfigBuilder extends BaseBuilder {
         for (int i = 1; matcher.find(); ++i) {
             String g1 = matcher.group(1);
             String g2 = matcher.group(2);
-            params.put(i, g2);
+            params.put(i - 1, g2);
             sql = sql.replace(g1, "?");
         }
+        // 修改前 select * from user where id = #{id} and username = #{username}
+        // 修改后 select * from user where id = ? and username = ?
+        // params: 0->id; 1->username
         return sql;
     }
 }

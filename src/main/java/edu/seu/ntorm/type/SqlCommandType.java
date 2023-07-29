@@ -1,4 +1,4 @@
-package edu.seu.ntorm.mapping;
+package edu.seu.ntorm.type;
 
 public enum SqlCommandType {
 
@@ -22,7 +22,7 @@ public enum SqlCommandType {
         return typeName;
     }
 
-    public SqlCommandType typeOf(String sqlType) {
+    public static SqlCommandType typeOf(String sqlType) {
         sqlType = sqlType.toUpperCase();
         switch (sqlType) {
             case "INSERT":

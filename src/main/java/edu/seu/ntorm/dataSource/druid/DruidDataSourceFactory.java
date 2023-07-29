@@ -13,7 +13,7 @@ import java.util.Properties;
 @ConditionalOnMissingBean(value = {DataSourceFactory.class})
 @ConditionalOnBean(value = {DefaultBuilderAutoConfigurator.class})
 @Configuration
-//TODO 暂时用Druid
+@Deprecated
 public class DruidDataSourceFactory implements DataSourceFactory {
 
     private Properties props;

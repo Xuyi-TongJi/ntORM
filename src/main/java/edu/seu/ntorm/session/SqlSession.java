@@ -2,22 +2,26 @@ package edu.seu.ntorm.session;
 
 import edu.seu.ntorm.exception.MapperNotExistException;
 
+import java.util.List;
+import java.util.Map;
+
 public interface SqlSession {
 
     /**
-     * 查询一条记录的接口(根据SqlID)
-     * @param statement SqlID
-     * @return 查询结果，可能为null
+     * 支持参数传递的获取一条记录(Select)的接口
+     * @param statementId SqlID -> Mapper方法ID
+     * @param parameters 参数 POJO or Map
+     * @return 查询结果 DTO or Map
      */
-    <T> T selectOne(String statement);
+    <T> T selectOne(String statementId, Map<String, Object> parameters);
 
     /**
-     * 支持参数传递的获取一条记录(Select)的接口
-     * @param statement SqlID
-     * @param parameters 支持参数传递 POJO or Map
-     * @return 查询结果，可能为null
+     *
+     * @param statementId sqlID -> Mapper方法ID
+     * @param parameters 参数 POJO or Map
+     * @return 查询结果 DTO or Map
      */
-    <T> T selectOne(String statement, Object parameters);
+    <T> List<T> select(String statementId, Map<String, Object> parameters);
 
     /**
      * 得到映射器 -> (通过MapperRegistry得到映射器的代理类)

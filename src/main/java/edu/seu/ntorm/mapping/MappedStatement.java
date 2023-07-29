@@ -1,6 +1,7 @@
 package edu.seu.ntorm.mapping;
 
-import edu.seu.ntorm.session.Configuration;
+import edu.seu.ntorm.session.env.Configuration;
+import edu.seu.ntorm.type.SqlCommandType;
 
 import java.util.Map;
 
@@ -94,5 +95,9 @@ public class MappedStatement {
 
     public void setParameter(Map<Integer, String> parameter) {
         this.parameter = parameter;
+    }
+
+    public BoundSql getBoundSql() {
+        return new BoundSql(sql, parameter, parameterType, resultType);
     }
 }

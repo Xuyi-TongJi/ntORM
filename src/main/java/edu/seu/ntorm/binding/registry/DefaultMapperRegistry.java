@@ -2,14 +2,11 @@ package edu.seu.ntorm.binding.registry;
 
 import cn.hutool.core.lang.ClassScanner;
 import edu.seu.ntorm.binding.MapperProxyFactory;
-import edu.seu.ntorm.builder.xml.DefaultXmlConfigBuilder;
 import edu.seu.ntorm.exception.AddMapperException;
 import edu.seu.ntorm.exception.MapperNotExistException;
 import edu.seu.ntorm.ntDb.DefaultBuilderAutoConfigurator;
-import edu.seu.ntorm.session.Configuration;
 import edu.seu.ntorm.session.SqlSession;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -30,9 +27,9 @@ public class DefaultMapperRegistry extends MapperRegistry {
      */
     private final Map<Class<?>, MapperProxyFactory<?>> mapperFactories = new HashMap<>();
 
-    public DefaultMapperRegistry(Configuration configuration) {
-        super(configuration);
-    }
+//    public DefaultMapperRegistry(Configuration configuration) {
+//        super(configuration);
+//    }
 
     @Override
     public <T> T getMapper(Class<T> type, SqlSession sqlSession) throws MapperNotExistException {
