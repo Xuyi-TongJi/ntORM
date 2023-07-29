@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 /**
  *  外观模式 Facade
@@ -34,7 +35,7 @@ public abstract class BaseExecutor implements Executor {
     }
 
     @Override
-    public <E> List<E> query(MappedStatement ms, Object parameter, BoundSql boundSql) {
+    public <E> List<E> query(MappedStatement ms, Map<String, Object> parameter, BoundSql boundSql) {
         closeOperation();
         return doQuery(ms, parameter, boundSql);
     }
@@ -75,7 +76,7 @@ public abstract class BaseExecutor implements Executor {
         }
     }
 
-    protected abstract <E> List<E> doQuery(MappedStatement ms, Object parameter, BoundSql boundSql);
+    protected abstract <E> List<E> doQuery(MappedStatement ms, Map<String, Object> parameter, BoundSql boundSql);
 
     /**
      * 判断该执行器是否已经关闭

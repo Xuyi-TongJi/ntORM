@@ -10,6 +10,8 @@ import edu.seu.ntorm.session.env.Configuration;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
+import java.util.Map;
 
 public abstract class BaseStatementHandler implements StatementHandler {
 
@@ -19,14 +21,17 @@ public abstract class BaseStatementHandler implements StatementHandler {
 
     protected final MappedStatement mappedStatement;
 
-    // TODO ? how to use it
-    protected final Object parameterObject;
+    /**
+     * 真正的参数值 -> 来自于Mapper中的方法参数
+     * User queryUserById(Long id) -> 方法参数中的Long即为parameterObject
+     */
+    protected final Map<String, Object> parameterObject;
 
     protected final BoundSql boundSql;
 
     public BaseStatementHandler(Executor executor,
                                 MappedStatement mappedStatement,
-                                Object parameterObject,
+                                Map<String, Object> parameterObject,
                                 BoundSql boundSql) {
         this.executor = executor;
         this.mappedStatement = mappedStatement;

@@ -6,6 +6,7 @@ import edu.seu.ntorm.transaction.Transaction;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 执行器接口
@@ -20,7 +21,7 @@ public interface Executor {
      * @param boundSql boundSql sql语句包装类
      * @return 查询结果
      */
-    <E> List<E> query(MappedStatement ms, Object parameter, BoundSql boundSql);
+    <E> List<E> query(MappedStatement ms, Map<String, Object> parameter, BoundSql boundSql);
 
     Transaction getTransaction();
 

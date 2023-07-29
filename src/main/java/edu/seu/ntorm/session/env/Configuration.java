@@ -9,6 +9,8 @@ import edu.seu.ntorm.ntDb.SqlStatementConfig;
 import edu.seu.ntorm.session.SqlSession;
 import edu.seu.ntorm.transaction.Transaction;
 
+import java.util.Map;
+
 /**
  * Configuration是
  */
@@ -62,6 +64,6 @@ public interface Configuration {
      * @param boundSql SQL包装类
      * @return 语句处理器
      */
-    StatementHandler buildStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameter,
+    StatementHandler buildStatementHandler(Executor executor, MappedStatement mappedStatement, Map<String, Object> parameter,
                                            BoundSql boundSql);
 }
