@@ -1,14 +1,15 @@
 package edu.seu.ntorm.session.defaults;
 
 import edu.seu.ntorm.exception.MapperNotExistException;
+import edu.seu.ntorm.executor.Executor;
 import edu.seu.ntorm.mapping.BoundSql;
-import edu.seu.ntorm.session.env.Environment;
 import edu.seu.ntorm.mapping.MappedStatement;
 import edu.seu.ntorm.session.env.Configuration;
 import edu.seu.ntorm.session.SqlSession;
+import org.springframework.util.CollectionUtils;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DefaultSqlSession implements SqlSession {
 
@@ -17,27 +18,31 @@ public class DefaultSqlSession implements SqlSession {
      */
     private final Configuration configuration;
 
-    public DefaultSqlSession(Configuration configuration) {
+    private final Executor executor;
+
+    public DefaultSqlSession(Configuration configuration,
+                             Executor executor) {
         this.configuration = configuration;
+        this.executor = executor;
     }
 
     @Override
-    public <T> T selectOne(String statement) {
-        return null;
-    }
-
-    @Override
-    public <T> T selectOne(String statement, Object parameters) {
-        MappedStatement mappedStatement = configuration.getMappedStatement(statement);
-        Environment env = configuration.getEnvironment();
-        try {
-            Connection conn = env.getDataSourceFactory().getDataSource().getConnection();
-            BoundSql boundSql = mappedStatement.getBoundSql();
-            // TODO
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    public <T> T selectOne(String statementId, Object parameters) {
+        List<T> query = select(statementId, parameters);
+        if (! CollectionUtils.isEmpty(query)) {
+            return query.get(0);
         }
         return null;
+    }
+
+    @Override
+    public <T> List<T> select(String statementId, Object parameters) {
+        MappedStatement mappedStatement = configuration.getMappedStatement(statementId);
+        if (mappedStatement == null) {
+            return new ArrayList<>();
+        }
+        BoundSql boundSql = mappedStatement.getBoundSql();
+        return executor.query(mappedStatement, parameters, boundSql);
     }
 
     @Override

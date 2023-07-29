@@ -43,7 +43,7 @@ public class SimpleStatementHandler extends BaseStatementHandler {
 
     @Override
     public void parameterize(Statement statement) throws SQLException {
-
+        // N/A
     }
 
     @Override
