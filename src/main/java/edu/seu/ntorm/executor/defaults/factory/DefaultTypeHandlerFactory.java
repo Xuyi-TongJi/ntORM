@@ -1,10 +1,12 @@
 package edu.seu.ntorm.executor.defaults.factory;
 
+import edu.seu.ntorm.binding.method.MethodParams;
 import edu.seu.ntorm.executor.defaults.DefaultTypeHandler;
 import edu.seu.ntorm.executor.factory.TypeHandlerFactory;
 import edu.seu.ntorm.executor.typeHandler.ParamResolver;
 import edu.seu.ntorm.executor.typeHandler.TypeHandler;
 
+import java.util.List;
 import java.util.Map;
 
 public class DefaultTypeHandlerFactory implements TypeHandlerFactory {
@@ -19,7 +21,7 @@ public class DefaultTypeHandlerFactory implements TypeHandlerFactory {
     }
 
     @Override
-    public TypeHandler getTypeHandler() {
-        return new DefaultTypeHandler(paramResolvers, defaultParamResolver);
+    public TypeHandler getTypeHandler(List<MethodParams> methodParams) {
+        return new DefaultTypeHandler(paramResolvers, defaultParamResolver, methodParams);
     }
 }

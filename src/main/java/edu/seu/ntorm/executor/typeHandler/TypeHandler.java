@@ -4,11 +4,12 @@ import java.util.Map;
 
 public interface TypeHandler {
 
+
+
     /**
      * 解析参数
-     * @param params 参数实体
      */
-    void resolveParams(String paramName, Object params, Class<?> clazz);
+    void resolveParams();
 
 
     /**

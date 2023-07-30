@@ -11,13 +11,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 暂不支持
  */
 public class PreparedStatementHandler extends BaseStatementHandler {
 
-    public PreparedStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, BoundSql boundSql) {
+    public PreparedStatementHandler(Executor executor, MappedStatement mappedStatement, Map<String, String> parameterObject, BoundSql boundSql) {
         super(executor, mappedStatement, parameterObject, boundSql);
     }
 

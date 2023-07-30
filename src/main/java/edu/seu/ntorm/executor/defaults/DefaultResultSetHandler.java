@@ -42,6 +42,12 @@ public class DefaultResultSetHandler implements ResultSetHandler {
         }
     }
 
+    @Override
+    public Long handleUpdateResultSets(Statement statement) throws SQLException {
+        // TODO ntDB 暂时不支持
+        return 0L;
+    }
+
     /**
      * ResultSet映射成clazz类的结果集
      * @param resultSet resultSet

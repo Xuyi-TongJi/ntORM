@@ -72,7 +72,6 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 @ConditionalOnBean(value = {DefaultBuilderAutoConfigurator.class})
-// 保留功能：ntDB可能要自己实现BaseBuilder解析SQL语法
 @ConditionalOnMissingBean(value = {BaseBuilder.class})
 @Component
 public class DefaultXmlConfigBuilder extends BaseBuilder {

@@ -1,5 +1,6 @@
 package edu.seu.ntorm.env.defaults;
 
+import edu.seu.ntorm.binding.method.MethodParams;
 import edu.seu.ntorm.binding.registry.MapperRegistry;
 import edu.seu.ntorm.env.Environment;
 import edu.seu.ntorm.exception.AddMapperException;
@@ -12,6 +13,7 @@ import edu.seu.ntorm.executor.factory.ResultSetHandlerFactory;
 import edu.seu.ntorm.executor.factory.StatementHandlerFactory;
 import edu.seu.ntorm.executor.resultsetHandler.ResultSetHandler;
 import edu.seu.ntorm.executor.statementHandler.StatementHandler;
+import edu.seu.ntorm.executor.typeHandler.TypeHandler;
 import edu.seu.ntorm.mapping.BoundSql;
 import edu.seu.ntorm.mapping.MappedStatement;
 import edu.seu.ntorm.ntDb.DefaultBuilderAutoConfigurator;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -154,6 +157,11 @@ public class DefaultConfiguration implements Configuration {
     @Override
     public Executor buildExecutor(Transaction transaction) {
         return executorFactory.getExecutor(transaction);
+    }
+
+    @Override
+    public TypeHandler buildTypeHandler(List<MethodParams> methodParams) {
+        return typeHandlerFactory.getTypeHandler(methodParams);
     }
 
     @Override
