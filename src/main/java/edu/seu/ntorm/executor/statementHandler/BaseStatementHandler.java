@@ -23,13 +23,13 @@ public abstract class BaseStatementHandler implements StatementHandler {
      * 真正的参数值 -> 来自于Mapper中的方法参数
      * User queryUserById(Long id) -> 方法参数中的Long即为parameterObject
      */
-    protected final Map<String, Object> parameterObject;
+    protected final Map<String, String> parameterObject;
 
     protected final BoundSql boundSql;
 
     public BaseStatementHandler(Executor executor,
                                 MappedStatement mappedStatement,
-                                Map<String, Object> parameterObject,
+                                Map<String, String> parameterObject,
                                 BoundSql boundSql) {
         this.executor = executor;
         this.mappedStatement = mappedStatement;

@@ -162,7 +162,7 @@ public class DefaultConfiguration implements Configuration {
     }
 
     @Override
-    public StatementHandler buildStatementHandler(Executor executor, MappedStatement mappedStatement, Map<String, Object> parameter, BoundSql boundSql) {
+    public StatementHandler buildStatementHandler(Executor executor, MappedStatement mappedStatement, Map<String, String> parameter, BoundSql boundSql) {
         return statementHandlerFactory.getStatementHandler(executor, mappedStatement, parameter, boundSql);
     }
 }

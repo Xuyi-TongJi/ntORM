@@ -13,7 +13,7 @@ public interface SqlSession {
      * @param parameters 参数 POJO or Map
      * @return 查询结果 DTO or Map
      */
-    <T> T selectOne(String statementId, Map<String, Object> parameters);
+    <T> T selectOne(String statementId, Map<String, String> parameters);
 
     /**
      *
@@ -21,7 +21,7 @@ public interface SqlSession {
      * @param parameters 参数 POJO or Map
      * @return 查询结果 DTO or Map
      */
-    <T> List<T> select(String statementId, Map<String, Object> parameters);
+    <T> List<T> select(String statementId, Map<String, String> parameters);
 
     /**
      * 得到映射器 -> (通过MapperRegistry得到映射器的代理类)

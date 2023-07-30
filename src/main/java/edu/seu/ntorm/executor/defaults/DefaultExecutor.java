@@ -29,7 +29,7 @@ public class DefaultExecutor extends BaseExecutor {
      * @return 结果实体类集合
      */
     @Override
-    protected <E> List<E> doQuery(MappedStatement ms, Map<String, Object> parameter, BoundSql boundSql) {
+    protected <E> List<E> doQuery(MappedStatement ms, Map<String, String> parameter, BoundSql boundSql) {
         try {
             Configuration config = ms.getConfiguration();
             // StatementHandler
@@ -37,7 +37,7 @@ public class DefaultExecutor extends BaseExecutor {
             Connection connection = transaction.getConnection();
             // 在连接中实例化statement并执行SQL
             Statement statement = statementHandler.prepare(connection);
-            ResultSet rs = statementHandler.execute(statement);
+            statementHandler.execute(statement);
 
             // ResultSetHandler
             ResultSetHandler resultSetHandler = config.buildResultSetHandler(this, ms, boundSql);

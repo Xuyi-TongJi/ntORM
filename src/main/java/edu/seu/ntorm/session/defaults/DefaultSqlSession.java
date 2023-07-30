@@ -28,7 +28,7 @@ public class DefaultSqlSession implements SqlSession {
     }
 
     @Override
-    public <T> T selectOne(String statementId, Map<String, Object> parameters) {
+    public <T> T selectOne(String statementId, Map<String, String> parameters) {
         List<T> query = select(statementId, parameters);
         if (! CollectionUtils.isEmpty(query)) {
             return query.get(0);
@@ -37,7 +37,7 @@ public class DefaultSqlSession implements SqlSession {
     }
 
     @Override
-    public <T> List<T> select(String statementId, Map<String, Object> parameters) {
+    public <T> List<T> select(String statementId, Map<String, String> parameters) {
         MappedStatement mappedStatement = configuration.getMappedStatement(statementId);
         if (mappedStatement == null) {
             return new ArrayList<>();

@@ -13,11 +13,11 @@ public interface StatementHandlerFactory {
 
     StatementHandler getStatementHandler(Executor executor,
                                          MappedStatement mappedStatement,
-                                         Map<String, Object> parameter,
+                                         Map<String, String> parameter,
                                          BoundSql boundSql);
 
     StatementHandler getPreparedStatementHandler(Executor executor,
                                                  MappedStatement mappedStatement,
-                                                 Map<String, Object> parameter,
+                                                 Map<String, String> parameter,
                                                  BoundSql boundSql);
 }

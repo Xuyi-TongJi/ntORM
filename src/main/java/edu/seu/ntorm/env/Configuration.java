@@ -64,6 +64,6 @@ public interface Configuration {
      * @param boundSql SQL包装类
      * @return 语句处理器
      */
-    StatementHandler buildStatementHandler(Executor executor, MappedStatement mappedStatement, Map<String, Object> parameter,
+    StatementHandler buildStatementHandler(Executor executor, MappedStatement mappedStatement, Map<String, String> parameter,
                                            BoundSql boundSql);
 }

@@ -21,7 +21,7 @@ public interface Executor {
      * @param boundSql boundSql sql语句包装类
      * @return 查询结果
      */
-    <E> List<E> query(MappedStatement ms, Map<String, Object> parameter, BoundSql boundSql);
+    <E> List<E> query(MappedStatement ms, Map<String, String> parameter, BoundSql boundSql);
 
     Transaction getTransaction();
 
