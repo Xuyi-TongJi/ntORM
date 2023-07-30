@@ -2,15 +2,13 @@ package edu.seu.ntorm.executor.statementHandler;
 
 import edu.seu.ntorm.exception.ExecutorException;
 import edu.seu.ntorm.executor.Executor;
-import edu.seu.ntorm.executor.resultsetHandler.ResultSetHandler;
 import edu.seu.ntorm.mapping.BoundSql;
 import edu.seu.ntorm.mapping.MappedStatement;
-import edu.seu.ntorm.session.env.Configuration;
+import edu.seu.ntorm.env.Configuration;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 import java.util.Map;
 
 public abstract class BaseStatementHandler implements StatementHandler {
@@ -25,13 +23,13 @@ public abstract class BaseStatementHandler implements StatementHandler {
      * 真正的参数值 -> 来自于Mapper中的方法参数
      * User queryUserById(Long id) -> 方法参数中的Long即为parameterObject
      */
-    protected final Map<String, Object> parameterObject;
+    protected final Map<String, String> parameterObject;
 
     protected final BoundSql boundSql;
 
     public BaseStatementHandler(Executor executor,
                                 MappedStatement mappedStatement,
-                                Map<String, Object> parameterObject,
+                                Map<String, String> parameterObject,
                                 BoundSql boundSql) {
         this.executor = executor;
         this.mappedStatement = mappedStatement;

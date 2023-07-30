@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class SimpleStatementHandler extends BaseStatementHandler {
 
-    public SimpleStatementHandler(Executor executor, MappedStatement mappedStatement, Map<String, Object> parameterObject, BoundSql boundSql) {
+    public SimpleStatementHandler(Executor executor, MappedStatement mappedStatement, Map<String, String> parameterObject, BoundSql boundSql) {
         super(executor, mappedStatement, parameterObject, boundSql);
     }
 
@@ -76,8 +76,8 @@ public class SimpleStatementHandler extends BaseStatementHandler {
                 if (StringUtils.isEmpty(parameterName)) {
                     throw new StatementHandlerException();
                 }
-                Object value = parameterObject.get(parameterName);
-                if (value == null) {
+                String value = parameterObject.get(parameterName);
+                if (StringUtils.isEmpty(parameterName)) {
                     throw new StatementHandlerException();
                 }
                 sb.append(value);

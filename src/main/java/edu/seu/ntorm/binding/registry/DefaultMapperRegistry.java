@@ -1,11 +1,13 @@
 package edu.seu.ntorm.binding.registry;
 
 import cn.hutool.core.lang.ClassScanner;
-import edu.seu.ntorm.binding.MapperProxyFactory;
+import edu.seu.ntorm.binding.proxy.MapperProxyFactory;
+import edu.seu.ntorm.binding.method.MethodParamsBuilder;
 import edu.seu.ntorm.exception.AddMapperException;
 import edu.seu.ntorm.exception.MapperNotExistException;
 import edu.seu.ntorm.ntDb.DefaultBuilderAutoConfigurator;
 import edu.seu.ntorm.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
@@ -27,9 +29,9 @@ public class DefaultMapperRegistry extends MapperRegistry {
      */
     private final Map<Class<?>, MapperProxyFactory<?>> mapperFactories = new HashMap<>();
 
-//    public DefaultMapperRegistry(Configuration configuration) {
-//        super(configuration);
-//    }
+
+    @Autowired
+    private MethodParamsBuilder methodParamsBuilder;
 
     @Override
     public <T> T getMapper(Class<T> type, SqlSession sqlSession) throws MapperNotExistException {
@@ -48,7 +50,7 @@ public class DefaultMapperRegistry extends MapperRegistry {
     @Override
     public <T> void addMapper(Class<T> type) throws AddMapperException {
         if (type.isInterface() && !hasMapper(type)) {
-            MapperProxyFactory<T> factory = new MapperProxyFactory<>(type);
+            MapperProxyFactory<T> factory = new MapperProxyFactory<>(type, methodParamsBuilder);
             mapperFactories.put(type, factory);
         } else {
             throw new AddMapperException();

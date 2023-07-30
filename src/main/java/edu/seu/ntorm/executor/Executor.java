@@ -1,5 +1,6 @@
 package edu.seu.ntorm.executor;
 
+import edu.seu.ntorm.binding.method.MethodParams;
 import edu.seu.ntorm.mapping.BoundSql;
 import edu.seu.ntorm.mapping.MappedStatement;
 import edu.seu.ntorm.transaction.Transaction;
@@ -21,7 +22,7 @@ public interface Executor {
      * @param boundSql boundSql sql语句包装类
      * @return 查询结果
      */
-    <E> List<E> query(MappedStatement ms, Map<String, Object> parameter, BoundSql boundSql);
+    <E> List<E> query(MappedStatement ms, List<MethodParams> parameter, BoundSql boundSql);
 
     Transaction getTransaction();
 
@@ -30,4 +31,6 @@ public interface Executor {
     void rollback(boolean required) throws SQLException;
 
     void close(boolean forceRollback);
+
+    Long update(MappedStatement mappedStatement, List<MethodParams> parameters, BoundSql boundSql);
 }

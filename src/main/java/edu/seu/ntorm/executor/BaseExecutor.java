@@ -1,9 +1,9 @@
 package edu.seu.ntorm.executor;
 
+import edu.seu.ntorm.binding.method.MethodParams;
 import edu.seu.ntorm.exception.ExecutorException;
 import edu.seu.ntorm.mapping.BoundSql;
 import edu.seu.ntorm.mapping.MappedStatement;
-import edu.seu.ntorm.session.env.Configuration;
 import edu.seu.ntorm.transaction.Transaction;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,9 +35,15 @@ public abstract class BaseExecutor implements Executor {
     }
 
     @Override
-    public <E> List<E> query(MappedStatement ms, Map<String, Object> parameter, BoundSql boundSql) {
+    public <E> List<E> query(MappedStatement ms, List<MethodParams> parameter, BoundSql boundSql) {
         closeOperation();
         return doQuery(ms, parameter, boundSql);
+    }
+
+    @Override
+    public Long update(MappedStatement mappedStatement, List<MethodParams> parameters, BoundSql boundSql) {
+        closeOperation();
+        return doUpdate(mappedStatement, parameters, boundSql);
     }
 
     @Override
@@ -76,7 +82,9 @@ public abstract class BaseExecutor implements Executor {
         }
     }
 
-    protected abstract <E> List<E> doQuery(MappedStatement ms, Map<String, Object> parameter, BoundSql boundSql);
+    protected abstract <E> List<E> doQuery(MappedStatement ms, List<MethodParams> parameter, BoundSql boundSql);
+
+    protected abstract Long doUpdate(MappedStatement ms, List<MethodParams> parameter, BoundSql boundSql);
 
     /**
      * 判断该执行器是否已经关闭

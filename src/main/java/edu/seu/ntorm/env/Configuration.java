@@ -1,14 +1,17 @@
-package edu.seu.ntorm.session.env;
+package edu.seu.ntorm.env;
 
+import edu.seu.ntorm.binding.method.MethodParams;
 import edu.seu.ntorm.executor.Executor;
 import edu.seu.ntorm.executor.resultsetHandler.ResultSetHandler;
 import edu.seu.ntorm.executor.statementHandler.StatementHandler;
+import edu.seu.ntorm.executor.typeHandler.TypeHandler;
 import edu.seu.ntorm.mapping.BoundSql;
 import edu.seu.ntorm.mapping.MappedStatement;
 import edu.seu.ntorm.ntDb.SqlStatementConfig;
 import edu.seu.ntorm.session.SqlSession;
 import edu.seu.ntorm.transaction.Transaction;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,6 +51,13 @@ public interface Configuration {
     Executor buildExecutor(Transaction transaction);
 
     /**
+     *
+     * @param methodParams methodParams
+     * @return typeHandler
+     */
+    TypeHandler buildTypeHandler(List<MethodParams> methodParams);
+
+    /**
      * 构建结果集处理器
      * @param executor 执行器
      * @param mappedStatement 映射语句（来自Configuration）
@@ -64,6 +74,6 @@ public interface Configuration {
      * @param boundSql SQL包装类
      * @return 语句处理器
      */
-    StatementHandler buildStatementHandler(Executor executor, MappedStatement mappedStatement, Map<String, Object> parameter,
+    StatementHandler buildStatementHandler(Executor executor, MappedStatement mappedStatement, Map<String, String> parameter,
                                            BoundSql boundSql);
 }

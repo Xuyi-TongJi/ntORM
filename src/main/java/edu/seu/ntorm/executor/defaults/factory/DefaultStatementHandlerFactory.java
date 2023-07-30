@@ -14,7 +14,7 @@ public class DefaultStatementHandlerFactory implements StatementHandlerFactory {
     @Override
     public StatementHandler getStatementHandler(Executor executor,
                                                 MappedStatement mappedStatement,
-                                                Map<String, Object> parameter,
+                                                Map<String, String> parameter,
                                                 BoundSql boundSql) {
         return new SimpleStatementHandler(executor, mappedStatement, parameter, boundSql);
     }
@@ -22,7 +22,7 @@ public class DefaultStatementHandlerFactory implements StatementHandlerFactory {
     @Override
     public StatementHandler getPreparedStatementHandler(Executor executor,
                                                         MappedStatement mappedStatement,
-                                                        Map<String, Object> parameter,
+                                                        Map<String, String> parameter,
                                                         BoundSql boundSql) {
         return new PreparedStatementHandler(executor, mappedStatement, parameter, boundSql);
     }

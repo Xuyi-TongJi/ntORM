@@ -1,5 +1,6 @@
-package edu.seu.ntorm.binding;
+package edu.seu.ntorm.binding.proxy;
 
+import edu.seu.ntorm.binding.method.MethodParamsBuilder;
 import edu.seu.ntorm.session.SqlSession;
 
 import java.lang.reflect.Proxy;
@@ -12,8 +13,11 @@ public class MapperProxyFactory<T> {
 
     private final Class<T> mapperInterface;
 
-    public MapperProxyFactory(Class<T> mapperInterface) {
+    private final MethodParamsBuilder methodParamsBuilder;
+
+    public MapperProxyFactory(Class<T> mapperInterface, MethodParamsBuilder methodParamsBuilder) {
         this.mapperInterface = mapperInterface;
+        this.methodParamsBuilder = methodParamsBuilder;
     }
 
     /**
@@ -22,7 +26,7 @@ public class MapperProxyFactory<T> {
      */
     public T newInstance(SqlSession sqlSession) {
         // InvocationHandler
-        MapperProxy<T> mapperProxy = new MapperProxy<>(sqlSession, mapperInterface);
+        MapperProxy<T> mapperProxy = new MapperProxy<>(sqlSession, mapperInterface, methodParamsBuilder);
         // Proxy.newProxyInstance返回代理对象[mapperInterface的代理对象]
         return (T) Proxy.newProxyInstance(mapperInterface.getClassLoader(), new Class[]{mapperInterface}, mapperProxy);
     }

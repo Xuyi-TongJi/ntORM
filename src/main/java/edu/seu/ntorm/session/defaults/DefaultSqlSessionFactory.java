@@ -2,10 +2,10 @@ package edu.seu.ntorm.session.defaults;
 
 import edu.seu.ntorm.exception.SqlSessionException;
 import edu.seu.ntorm.executor.Executor;
-import edu.seu.ntorm.session.env.Configuration;
+import edu.seu.ntorm.env.Configuration;
 import edu.seu.ntorm.session.SqlSession;
 import edu.seu.ntorm.session.SqlSessionFactory;
-import edu.seu.ntorm.session.env.Environment;
+import edu.seu.ntorm.env.Environment;
 import edu.seu.ntorm.transaction.Transaction;
 import edu.seu.ntorm.transaction.TransactionIsolationLevel;
 
