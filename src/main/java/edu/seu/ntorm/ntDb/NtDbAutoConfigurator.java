@@ -3,14 +3,21 @@ package edu.seu.ntorm.ntDb;
 import edu.seu.ntorm.executor.defaults.factory.DefaultExecutorFactory;
 import edu.seu.ntorm.executor.defaults.factory.DefaultResultSetHandlerFactory;
 import edu.seu.ntorm.executor.defaults.factory.DefaultStatementHandlerFactory;
+import edu.seu.ntorm.executor.defaults.factory.DefaultTypeHandlerFactory;
+import edu.seu.ntorm.executor.defaults.paramResolver.PojoParamResolver;
 import edu.seu.ntorm.executor.factory.ExecutorFactory;
 import edu.seu.ntorm.executor.factory.ResultSetHandlerFactory;
 import edu.seu.ntorm.executor.factory.StatementHandlerFactory;
+import edu.seu.ntorm.executor.factory.TypeHandlerFactory;
+import edu.seu.ntorm.executor.typeHandler.ParamResolver;
 import edu.seu.ntorm.type.TypeAliasRegistry;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +32,29 @@ public class NtDbAutoConfigurator {
         maps.put("int64", Long.class);
         maps.put("string", String.class);
         return new TypeAliasRegistry(maps);
+    }
+
+    @Bean("resolvers")
+    public Map<String, ParamResolver> getResolvers() {
+        Map<String, ParamResolver> result = new HashMap<>();
+        // TODO
+
+        return result;
+    }
+
+    @Bean("defaultParamResolver")
+    public ParamResolver getDefaultParamResolver() {
+        // 默认参数解析器是pojo解析器
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return new PojoParamResolver(dateFormat);
+    }
+
+    @ConditionalOnMissingBean(value = {TypeHandlerFactory.class})
+    @Bean
+    public TypeHandlerFactory getTypeHandlerFactory(
+            @Qualifier("resolvers") Map<String, ParamResolver> resolvers,
+            @Qualifier("defaultParamResolver") ParamResolver resolver) {
+        return new DefaultTypeHandlerFactory(resolvers, resolver);
     }
 
     @ConditionalOnMissingBean(value = {StatementHandlerFactory.class})
@@ -44,4 +74,5 @@ public class NtDbAutoConfigurator {
     public ExecutorFactory getExecutorFactory() {
         return new DefaultExecutorFactory();
     }
+
 }
