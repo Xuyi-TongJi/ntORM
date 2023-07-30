@@ -1,4 +1,4 @@
-package edu.seu.ntorm.session.env;
+package edu.seu.ntorm.env;
 
 import edu.seu.ntorm.dataSource.DataSourceFactory;
 import edu.seu.ntorm.transaction.TransactionFactory;

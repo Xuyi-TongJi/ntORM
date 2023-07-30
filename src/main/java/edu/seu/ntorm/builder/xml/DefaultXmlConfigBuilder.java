@@ -6,7 +6,7 @@ import edu.seu.ntorm.io.ResourcesUtil;
 import edu.seu.ntorm.mapping.MappedStatement;
 import edu.seu.ntorm.type.SqlCommandType;
 import edu.seu.ntorm.ntDb.DefaultBuilderAutoConfigurator;
-import edu.seu.ntorm.session.env.Configuration;
+import edu.seu.ntorm.env.Configuration;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
 import org.dom4j.Element;

@@ -1,4 +1,4 @@
-package edu.seu.ntorm.session.env;
+package edu.seu.ntorm.env;
 
 import edu.seu.ntorm.executor.Executor;
 import edu.seu.ntorm.executor.resultsetHandler.ResultSetHandler;

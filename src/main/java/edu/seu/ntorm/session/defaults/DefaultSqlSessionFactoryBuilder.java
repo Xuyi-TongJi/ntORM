@@ -4,7 +4,7 @@ import edu.seu.ntorm.builder.BaseBuilder;
 import edu.seu.ntorm.exception.ParseConfigurationException;
 import edu.seu.ntorm.ntDb.DefaultBuilderAutoConfigurator;
 import edu.seu.ntorm.session.AbstractSqlSessionFactoryBuilder;
-import edu.seu.ntorm.session.env.Configuration;
+import edu.seu.ntorm.env.Configuration;
 import edu.seu.ntorm.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;

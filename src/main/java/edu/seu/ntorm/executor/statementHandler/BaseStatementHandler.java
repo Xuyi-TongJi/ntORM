@@ -2,15 +2,13 @@ package edu.seu.ntorm.executor.statementHandler;
 
 import edu.seu.ntorm.exception.ExecutorException;
 import edu.seu.ntorm.executor.Executor;
-import edu.seu.ntorm.executor.resultsetHandler.ResultSetHandler;
 import edu.seu.ntorm.mapping.BoundSql;
 import edu.seu.ntorm.mapping.MappedStatement;
-import edu.seu.ntorm.session.env.Configuration;
+import edu.seu.ntorm.env.Configuration;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 import java.util.Map;
 
 public abstract class BaseStatementHandler implements StatementHandler {

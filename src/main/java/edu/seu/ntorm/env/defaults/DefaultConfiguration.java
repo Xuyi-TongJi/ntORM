@@ -1,22 +1,22 @@
-package edu.seu.ntorm.session.env.defaults;
+package edu.seu.ntorm.env.defaults;
 
 import edu.seu.ntorm.binding.registry.MapperRegistry;
-import edu.seu.ntorm.dataSource.druid.DruidDataSourceFactory;
+import edu.seu.ntorm.env.Environment;
 import edu.seu.ntorm.exception.AddMapperException;
 import edu.seu.ntorm.exception.MappedStatementNotExistException;
 import edu.seu.ntorm.exception.MapperNotExistException;
 import edu.seu.ntorm.executor.Executor;
+import edu.seu.ntorm.executor.factory.TypeHandlerFactory;
 import edu.seu.ntorm.executor.factory.ExecutorFactory;
 import edu.seu.ntorm.executor.factory.ResultSetHandlerFactory;
 import edu.seu.ntorm.executor.factory.StatementHandlerFactory;
 import edu.seu.ntorm.executor.resultsetHandler.ResultSetHandler;
 import edu.seu.ntorm.executor.statementHandler.StatementHandler;
 import edu.seu.ntorm.mapping.BoundSql;
-import edu.seu.ntorm.session.env.Environment;
 import edu.seu.ntorm.mapping.MappedStatement;
 import edu.seu.ntorm.ntDb.DefaultBuilderAutoConfigurator;
 import edu.seu.ntorm.ntDb.SqlStatementConfig;
-import edu.seu.ntorm.session.env.Configuration;
+import edu.seu.ntorm.env.Configuration;
 import edu.seu.ntorm.session.SqlSession;
 import edu.seu.ntorm.transaction.Transaction;
 import edu.seu.ntorm.transaction.jdbc.JdbcTransactionFactory;
@@ -43,6 +43,12 @@ public class DefaultConfiguration implements Configuration {
     private final Map<String, MappedStatement> statements = new HashMap<>();
 
     /**
+     * Mapper注册机
+     */
+    @Autowired
+    private MapperRegistry mapperRegistry;
+
+    /**
      * 环境 -> DataSourceFactory  + TransactionFactory -> 指向ORM框架通信模块
      */
     @Autowired
@@ -50,12 +56,6 @@ public class DefaultConfiguration implements Configuration {
 
     @Autowired
     private TypeAliasRegistry typeAliasRegistry;
-
-    /**
-     * Mapper注册机
-     */
-    @Autowired
-    private MapperRegistry mapperRegistry;
 
     /**
      * SQL执行配置
@@ -80,6 +80,12 @@ public class DefaultConfiguration implements Configuration {
      */
     @Autowired
     private StatementHandlerFactory statementHandlerFactory;
+
+    /**
+     * typeHandler工厂
+     */
+    @Autowired
+    private TypeHandlerFactory typeHandlerFactory;
 
     @PostConstruct
     public void postConstruct() {
