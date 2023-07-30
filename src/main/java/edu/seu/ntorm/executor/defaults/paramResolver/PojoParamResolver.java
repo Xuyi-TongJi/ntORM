@@ -27,6 +27,9 @@ public class PojoParamResolver implements ParamResolver {
                         Object params,
                         Class<?> clazz,
                         Map<String, String> paramValue) {
+        if (params == null) {
+            return;
+        }
         if (! clazz.isInstance(params)) {
             // check
             // params一定是clazz的实体类

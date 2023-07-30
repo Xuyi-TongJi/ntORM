@@ -4,7 +4,7 @@ import edu.seu.ntorm.executor.defaults.factory.DefaultExecutorFactory;
 import edu.seu.ntorm.executor.defaults.factory.DefaultResultSetHandlerFactory;
 import edu.seu.ntorm.executor.defaults.factory.DefaultStatementHandlerFactory;
 import edu.seu.ntorm.executor.defaults.factory.DefaultTypeHandlerFactory;
-import edu.seu.ntorm.executor.defaults.paramResolver.PojoParamResolver;
+import edu.seu.ntorm.executor.defaults.paramResolver.*;
 import edu.seu.ntorm.executor.factory.ExecutorFactory;
 import edu.seu.ntorm.executor.factory.ResultSetHandlerFactory;
 import edu.seu.ntorm.executor.factory.StatementHandlerFactory;
@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,18 +35,30 @@ public class NtDbAutoConfigurator {
         return new TypeAliasRegistry(maps);
     }
 
-    @Bean("resolvers")
-    public Map<String, ParamResolver> getResolvers() {
-        Map<String, ParamResolver> result = new HashMap<>();
-        // TODO
+    @Bean
+    @ConditionalOnMissingBean(value = {DateFormat.class})
+    public DateFormat getDateFormat() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    }
 
+    @Bean("resolvers")
+    public Map<String, ParamResolver> getResolvers(DateFormat dateFormat) {
+        Map<String, ParamResolver> result = new HashMap<>();
+        ParamResolver numResolver = new NumberParamResolver();
+        ParamResolver dateResolver = new DateParamResolver(dateFormat);
+        ParamResolver mapResolver = new MapParamResolver(dateFormat);
+        ParamResolver stringResolver = new StringParamResolver();
+        result.put(Integer.class.getCanonicalName(), numResolver);
+        result.put(Long.class.getCanonicalName(), numResolver);
+        result.put(Map.class.getCanonicalName(), mapResolver);
+        result.put(String.class.getCanonicalName(), stringResolver);
+        result.put(Date.class.getCanonicalName(), dateResolver);
         return result;
     }
 
     @Bean("defaultParamResolver")
-    public ParamResolver getDefaultParamResolver() {
+    public ParamResolver getDefaultParamResolver(DateFormat dateFormat) {
         // 默认参数解析器是pojo解析器
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return new PojoParamResolver(dateFormat);
     }
 
