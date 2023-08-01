@@ -32,6 +32,12 @@ public class NtDbClient implements NettyClient {
         init();
     }
 
+    /**
+     * 连接到ntDB Server并获取
+     * @param ip ip
+     * @param port port
+     * @return netty channel
+     */
     @Override
     public Channel getChannel(String ip, int port) {
         return null;
